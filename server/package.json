@@ -1,0 +1,37 @@
+{
+  "name": "expense-tracker-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SpendWise API - secure multi-user expense tracking with analytics, Groq AI and email alerts",
+  "type": "module",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=20.12"
+  },
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "test": "node --test --test-concurrency=1 \"tests/**/*.test.js\"",
+    "seed": "node scripts/seed.js"
+  },
+  "dependencies": {
+    "compression": "^1.8.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.7.0",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "luxon": "^3.7.2",
+    "mongoose": "^8.24.5",
+    "node-cron": "^4.6.0",
+    "nodemailer": "^10.0.14",
+    "pino": "^10.4.0",
+    "pino-http": "^11.0.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "pino-pretty": "^13.2.0",
+    "supertest": "^7.3.1"
+  }
+}

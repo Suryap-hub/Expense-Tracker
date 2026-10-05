@@ -1,0 +1,189 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------ tokens
+   Every color is a role. Light/dark swap here, nowhere else.            */
+:root {
+  color-scheme: light;
+  --page: #f4f6f6;
+  --surface: #ffffff;
+  --surface-2: #eef2f2;
+  --surface-3: #e4eaea;
+  --ink: #15232d;
+  --ink-2: #4a5961;
+  --muted: #74828a;
+  --line: #e2e7e8;
+  --line-strong: #c8d1d3;
+  --accent: #0f766e;
+  --accent-hover: #0b625b;
+  --accent-ink: #ffffff;
+  --accent-soft: #e2f2ef;
+  --focus: #0f766e;
+
+  /* charts (validated: see README "Design notes") */
+  --chart-1: #008574;
+  --chart-prev: #9aa5ad;
+  --chart-wash: rgb(0 133 116 / 0.1);
+  --grid: #e8ecec;
+  --axis: #c8d1d3;
+
+  /* status - always paired with an icon + label */
+  --good: #0ca30c;
+  --good-text: #006300;
+  --warning: #fab219;
+  --warning-text: #8a5a00;
+  --serious: #ec835a;
+  --critical: #d03b3b;
+  --critical-text: #b42626;
+  --critical-soft: #fbeaea;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme='light'])) {
+    color-scheme: dark;
+    --page: #0d1418;
+    --surface: #141c21;
+    --surface-2: #1b252b;
+    --surface-3: #233038;
+    --ink: #e6edef;
+    --ink-2: #b2bfc5;
+    --muted: #82919a;
+    --line: #223038;
+    --line-strong: #33444d;
+    --accent: #1fa08f;
+    --accent-hover: #27b3a0;
+    --accent-ink: #062521;
+    --accent-soft: #11302c;
+    --focus: #3cc4b1;
+    --chart-1: #1fa08f;
+    --chart-prev: #b0bac0;
+    --chart-wash: rgb(31 160 143 / 0.12);
+    --grid: #1f2b32;
+    --axis: #33444d;
+    --good-text: #3dc93d;
+    --warning-text: #fab219;
+    --critical-text: #f07a7a;
+    --critical-soft: #3a1c1c;
+  }
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --page: #0d1418;
+  --surface: #141c21;
+  --surface-2: #1b252b;
+  --surface-3: #233038;
+  --ink: #e6edef;
+  --ink-2: #b2bfc5;
+  --muted: #82919a;
+  --line: #223038;
+  --line-strong: #33444d;
+  --accent: #1fa08f;
+  --accent-hover: #27b3a0;
+  --accent-ink: #062521;
+  --accent-soft: #11302c;
+  --focus: #3cc4b1;
+  --chart-1: #1fa08f;
+  --chart-prev: #b0bac0;
+  --chart-wash: rgb(31 160 143 / 0.12);
+  --grid: #1f2b32;
+  --axis: #33444d;
+  --good-text: #3dc93d;
+  --warning-text: #fab219;
+  --critical-text: #f07a7a;
+  --critical-soft: #3a1c1c;
+}
+
+@theme inline {
+  --font-sans: 'Onest Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-good: var(--good);
+  --color-good-text: var(--good-text);
+  --color-warning: var(--warning);
+  --color-warning-text: var(--warning-text);
+  --color-serious: var(--serious);
+  --color-critical: var(--critical);
+  --color-critical-text: var(--critical-text);
+  --color-critical-soft: var(--critical-soft);
+}
+
+/* ------------------------------------------------------------------ base
+   Inside @layer base so Tailwind utilities (text-*, bg-*) can override it. */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'ss01' on;
+  }
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  ::selection {
+    background: var(--accent-soft);
+  }
+  input,
+  select,
+  textarea,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+  input[type='date']::-webkit-calendar-picker-indicator {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* The one orchestrated motion: the pace line draws itself on first load. */
+@keyframes draw {
+  from {
+    stroke-dashoffset: var(--len);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.draw-in {
+  stroke-dasharray: var(--len);
+  animation: draw 900ms cubic-bezier(0.3, 0.7, 0.2, 1) both;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+.sheet-in {
+  animation: rise 180ms ease-out both;
+}
