@@ -1,0 +1,39 @@
+# One Render web service runs the API and serves the built React app.
+# Same origin = no CORS, first-party cookies, one less network hop.
+# Render dashboard: New > Blueprint > pick this repo.
+services:
+  - type: web
+    name: spendwise
+    runtime: node
+    region: singapore # closest Render region to India; put Atlas in Mumbai (ap-south-1)
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 22
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: CRON_SECRET
+        generateValue: true
+      - key: MONGODB_URI
+        sync: false
+      - key: CLIENT_URL
+        sync: false # e.g. https://spendwise.onrender.com
+      - key: GROQ_API_KEY
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: 465
+      - key: SMTP_SECURE
+        value: true
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: EMAIL_FROM
+        sync: false
